@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from sqlalchemy import String, Text, DateTime
 from sqlalchemy.dialects.postgresql import UUID as db_uuid
-from sqlalchemy.orm import mapped_column, Mapped
+from sqlalchemy.orm import mapped_column, Mapped, relationship
 from uuid import uuid4, UUID
 from database import Base
 
@@ -15,3 +15,11 @@ class User(Base):
     email: Mapped[str | None] = mapped_column(String(250), unique=True)
     full_name: Mapped[str | None] = mapped_column(String(100))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.now(timezone.utc))
+
+    chats: Mapped['Chat'] = relationship(
+        'Chat',
+        foreign_keys='Chat.user_id',
+        back_populates='user',
+        passive_deletes=True,
+        lazy='noload'
+    )
