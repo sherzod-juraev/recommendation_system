@@ -1,6 +1,68 @@
+from typing import Annotated
+from datetime import datetime, timedelta
 from jose import jwt, ExpiredSignatureError, JWTError
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
+from uuid import UUID
+from .settings import settings
+
 
 context = CryptContext(schemes=['bcrypt'], deprecated='auto')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/sign/in')
+
 
 # password hash
+def hashed_pass(raw_password: str, /) -> str:
+    return context.hash(raw_password)
+
+
+def verify_password(raw_password: str, hash_password: str, /) -> bool:
+    return context.verify(raw_password, hash_password)
+
+
+# Token
+def create_access_token(auth_id: UUID, /) -> str:
+    token_dict = {
+        'sub' : str(auth_id),
+        'exp': datetime.utcnow() + timedelta(minutes=settings.access_token_minutes)
+    }
+    access_token = jwt.encode(token_dict, settings.secret_key, settings.algorithm)
+    return access_token
+
+
+def create_refresh_token(auth_id: UUID, /) -> str:
+    token_dict = {
+        'sub': str(auth_id),
+        'exp': datetime.utcnow() + timedelta(days=settings.refresh_token_minutes)
+    }
+    refresh_token = jwt.encode(token_dict, settings.secret_key, settings.algorithm)
+    return refresh_token
+
+
+def verify_access_token(access_token: Annotated[str, Depends(oauth2_scheme)]) -> UUID:
+    try:
+        payload = jwt.decode(access_token, settings.secret_key, algorithms=[settings.algorithm])
+        auth_id = payload.get('sub')
+        if not auth_id:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail='access_token not found'
+            )
+        return UUID(auth_id)
+    except ExpiredSignatureError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail='access_token expired',
+            headers={
+                'WWW-Authenticate': 'Bearer'
+            }
+        )
+    except JWTError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail='access_token invalid',
+            headers={
+                'WWW-Authenticate': 'Bearer'
+            }
+        )
