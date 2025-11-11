@@ -34,7 +34,7 @@ def create_access_token(auth_id: UUID, /) -> str:
 def create_refresh_token(auth_id: UUID, /) -> str:
     token_dict = {
         'sub': str(auth_id),
-        'exp': datetime.utcnow() + timedelta(days=settings.refresh_token_minutes)
+        'exp': datetime.utcnow() + timedelta(days=settings.refresh_token_days)
     }
     refresh_token = jwt.encode(token_dict, settings.secret_key, settings.algorithm)
     return refresh_token
