@@ -5,7 +5,7 @@ class Setting(BaseSettings):
 
     database_url: str
     access_token_minutes: int
-    refresh_token_minutes: int
+    refresh_token_days: int
     algorithm: str
     secret_key: str
 
