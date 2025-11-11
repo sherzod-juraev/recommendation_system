@@ -20,3 +20,11 @@ class Chat(Base):
         back_populates='chats',
         lazy='noload'
     )
+
+    contents: Mapped['Content'] = relationship(
+        'Content',
+        foreign_keys='Content.chat_id',
+        back_populates='chat',
+        passive_deletes=True,
+        lazy='noload'
+    )
