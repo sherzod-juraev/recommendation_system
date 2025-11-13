@@ -20,3 +20,12 @@ class Book(Base):
         back_populates='books',
         lazy='noload'
     )
+
+    book_genre: Mapped[list['BookGenre']] = relationship(
+        'BookGenre',
+        foreign_keys='BookGenre.book_id',
+        back_populates='book',
+        passive_deletes=True,
+        lazy='selectin',
+        uselist=True
+    )

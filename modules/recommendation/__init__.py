@@ -4,6 +4,7 @@ from fastapi import APIRouter
 from .authors.router import author_router
 from .genres.router import genre_router
 from .books.router import book_router
+from .book_genres.router import book_genre_router
 
 
 recommendation_router = APIRouter()
@@ -25,4 +26,10 @@ recommendation_router.include_router(
     book_router,
     prefix='/book',
     tags=['Books']
+)
+
+recommendation_router.include_router(
+    book_genre_router,
+    prefix='/bookgenre',
+    tags=['Book genre']
 )
