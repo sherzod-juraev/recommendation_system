@@ -21,7 +21,7 @@ class Book(Base):
         lazy='noload'
     )
 
-    book_genre: Mapped[list['BookGenre']] = relationship(
+    book_genres: Mapped[list['BookGenre']] = relationship(
         'BookGenre',
         foreign_keys='BookGenre.book_id',
         back_populates='book',

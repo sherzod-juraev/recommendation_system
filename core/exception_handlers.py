@@ -18,6 +18,7 @@ def register_exception_handler(app: FastAPI, /) -> None:
 
     @app.exception_handler(ResponseValidationError)
     async def response_validation_exception_handler(request: Request, exc: ResponseValidationError):
+        print(exc.errors())
         return JSONResponse(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             content={

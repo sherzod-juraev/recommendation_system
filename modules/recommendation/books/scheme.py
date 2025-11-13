@@ -1,5 +1,14 @@
 from pydantic import BaseModel
 from uuid import UUID
+from ..genres import GenreOut
+
+
+class BookGenre(BaseModel):
+    model_config = {
+        'from_attributes': True
+    }
+
+    genre: GenreOut
 
 
 class BookOut(BaseModel):
@@ -9,6 +18,7 @@ class BookOut(BaseModel):
 
     id: UUID
     title: str
+    book_genres: list[BookGenre] = []
 
 
 class BookIn(BaseModel):

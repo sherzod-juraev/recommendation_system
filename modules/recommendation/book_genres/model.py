@@ -17,7 +17,7 @@ class BookGenre(Base):
     book: Mapped['Book'] = relationship(
         'Book',
         foreign_keys=[book_id],
-        back_populates='book_genre',
+        back_populates='book_genres',
         lazy='selectin'
     )
 
