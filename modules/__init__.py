@@ -12,9 +12,10 @@ from .chats import Chat
 from .contents import Content
 from .recommendation.authors import Author
 from .recommendation.genres import Genre
+from .recommendation.books import Book
 
 
-__all__ = ['User', 'Chat', 'Content', 'Author', 'Genre']
+__all__ = ['User', 'Chat', 'Content', 'Author', 'Genre', 'Book']
 
 
 api_router = APIRouter()
