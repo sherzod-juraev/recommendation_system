@@ -2,6 +2,7 @@ from re import match
 from fastapi import HTTPException, status
 from pydantic import BaseModel, field_validator, Field
 from uuid import UUID
+from ..books import BookOut
 
 
 class AuthorOut(BaseModel):
@@ -11,6 +12,7 @@ class AuthorOut(BaseModel):
 
     id: UUID
     full_name: str
+    books: list[BookOut] = []
 
 
 class AuthorIn(BaseModel):

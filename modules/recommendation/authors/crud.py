@@ -84,6 +84,7 @@ async def verify_author(
         /
 ) -> Author:
     author_db = await db.get(Author, author_id)
+    print(author_db.books)
     if not author_db:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
