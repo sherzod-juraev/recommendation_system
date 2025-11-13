@@ -5,6 +5,7 @@ from .users.router import user_router
 from .chats.router import chat_router
 from .contents.router import content_router
 from .recommendation import recommendation_router
+from .learn import learn_router
 
 # import models
 from .users import User
@@ -14,9 +15,10 @@ from .recommendation.authors import Author
 from .recommendation.genres import Genre
 from .recommendation.books import Book
 from .recommendation.book_genres import BookGenre
+from .learn.related_genres import GenreRelation
 
 
-__all__ = ['User', 'Chat', 'Content', 'Author', 'Genre', 'Book', 'BookGenre']
+__all__ = ['User', 'Chat', 'Content', 'Author', 'Genre', 'Book', 'BookGenre', 'GenreRelation']
 
 
 api_router = APIRouter()
@@ -41,4 +43,8 @@ api_router.include_router(
 
 api_router.include_router(
     recommendation_router
+)
+
+api_router.include_router(
+    learn_router
 )

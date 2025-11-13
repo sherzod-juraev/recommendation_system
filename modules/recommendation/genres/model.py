@@ -20,3 +20,19 @@ class Genre(Base):
         passive_deletes=True,
         lazy='noload'
     )
+
+    genre_head: Mapped['GenreRelation'] = relationship(
+        'GenreRelation',
+        foreign_keys='GenreRelation.from_genre_id',
+        back_populates='from_genre',
+        passive_deletes=True,
+        lazy='noload'
+    )
+
+    genre_last: Mapped['GenreRelation'] = relationship(
+        'GenreRelation',
+        foreign_keys='GenreRelation.to_genre_id',
+        back_populates='to_genre',
+        passive_deletes=True,
+        lazy='noload'
+    )
