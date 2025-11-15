@@ -32,12 +32,13 @@ async def save_to_db(
 async def create_user_interest(
         db: AsyncSession,
         user_interest_scheme: UserInterestIn,
+        user_id: UUID,
         /
 ) -> UserInterest:
     user_interest_db = UserInterest(
         degree=user_interest_scheme.degree,
         book_id=user_interest_scheme.book_id,
-        user_id=user_interest_scheme.user_id
+        user_id=user_id
     )
     db.add(user_interest_db)
     user_interest_db = await save_to_db(db, user_interest_db)
@@ -64,7 +65,7 @@ async def delete_user_interest(
         /
 ) -> None:
     user_interest_db = await verify_user_interest(db, user_interest_id)
-    db.delete(user_interest_db)
+    await db.delete(user_interest_db)
     try:
         await db.commit()
     except Exception:
