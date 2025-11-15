@@ -16,9 +16,10 @@ from .recommendation.genres import Genre
 from .recommendation.books import Book
 from .recommendation.book_genres import BookGenre
 from .learn.related_genres import GenreRelation
+from .learn.user_interests import UserInterest
 
 
-__all__ = ['User', 'Chat', 'Content', 'Author', 'Genre', 'Book', 'BookGenre', 'GenreRelation']
+__all__ = ['User', 'Chat', 'Content', 'Author', 'Genre', 'Book', 'BookGenre', 'GenreRelation', 'UserInterest']
 
 
 api_router = APIRouter()

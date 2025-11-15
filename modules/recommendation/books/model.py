@@ -29,3 +29,11 @@ class Book(Base):
         lazy='selectin',
         uselist=True
     )
+
+    user_interest: Mapped['UserInterest'] = relationship(
+        'UserInterest',
+        foreign_keys='UserInterest.book_id',
+        back_populates='book',
+        lazy='noload',
+        passive_deletes=True
+    )

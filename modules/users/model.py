@@ -23,3 +23,11 @@ class User(Base):
         passive_deletes=True,
         lazy='noload'
     )
+
+    user_interest: Mapped['UserInterest'] = relationship(
+        'UserInterest',
+        foreign_keys='UserInterest.user_id',
+        back_populates='user',
+        lazy='noload',
+        passive_deletes=True
+    )
