@@ -12,16 +12,22 @@ async def conclusion(
         user_id: UUID,
         /
 ) -> set[UUID]:
-    result = await get_interest(db, user_id)
-    genres_id_list, books_id_list = result[0], result[1]
+    genres_id_list = await get_interest(db, user_id)
+    # janrlarda yozilgan kitoblar
     query = select(distinct(UserInterest.book_id)).join(
         UserInterest.book
     ).join(
         Book.book_genres
     ).where(
-        UserInterest.book_id.notin_(books_id_list),
         BookGenre.genre_id.in_(genres_id_list)
-    )
+    ).limit(100)
     result = await db.execute(query)
     books_id_list = set(result.scalars().all())
+    # o'qilgan kitoblar
+    query = select(distinct(UserInterest.book_id)).where(
+        UserInterest.user_id == user_id
+    )
+    result = await db.execute(query)
+    books_read = set(result.scalars().all())
+    books_id_list -= books_read
     return books_id_list
