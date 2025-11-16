@@ -9,7 +9,8 @@ async def get_interest(
         user_id: UUID,
         /
 ) -> list[str]:
-    query = select(UserInterest).where(UserInterest.user_id == user_id).order_by(UserInterest.created_at.desc()).limit(20)
+    query = select(UserInterest).where(UserInterest.user_id == user_id
+    ).order_by(UserInterest.created_at.desc()).where(UserInterest.degree >= 3).limit(20)
     result = await db.execute(query)
     user_interests = result.scalars().all()
     length = len(user_interests)
