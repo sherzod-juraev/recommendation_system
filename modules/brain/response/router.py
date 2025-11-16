@@ -15,7 +15,7 @@ response_router = APIRouter()
     '/',
     summary='Recommend new books',
     status_code=status.HTTP_200_OK,
-    response_model=BookOut
+    response_model=list[BookOut]
 )
 async def get_books(
         user_id: Annotated[UUID, Depends(verify_access_token)],

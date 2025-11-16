@@ -13,9 +13,9 @@ async def get_interest(
     result = await db.execute(query)
     user_interests = result.scalars().all()
     length = len(user_interests)
-    genres_id_set = {}
+    genres_id_set = set({})
     for i in range(length):
-        genre_length = len(user_interests.book.book_genres)
+        genre_length = len(user_interests[i].book.book_genres)
         for j in range(genre_length):
-            genres_id_set.add(user_interests.book.book_genres[j].id)
+            genres_id_set.add(user_interests[i].book.book_genres[j].genre.id)
     return list(genres_id_set)
