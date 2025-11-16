@@ -14,7 +14,7 @@ async def get_interest(
         Book.user_interest
     ).where(
         UserInterest.user_id == user_id
-    ).order_by(UserInterest.created_at.desc()).where(
+    ).where(
         UserInterest.degree >= 3
     ).limit(5)
     result = await db.execute(query)
