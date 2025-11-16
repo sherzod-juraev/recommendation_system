@@ -23,3 +23,9 @@ async def conclusion(
     ).where(
         Genre.id.in_(genres_id_list)
     ).order_by(UserInterest.created_at.desc()).limit(10)
+    result = await db.execute(query)
+    books_id_list = result.scalars().all()
+    query = select(Book).where(Book.id.in_(books_id_list)).order_by(Book.title.asc())
+    result = await db.execute(query)
+    books_list = result.scalars().all()
+    return books_list

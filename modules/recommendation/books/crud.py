@@ -22,6 +22,11 @@ async def save_to_db(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail='Author not found'
             )
+        elif 'books_title_author_id_key' in error_msg:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail='Book already exists'
+            )
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='Error creating books'

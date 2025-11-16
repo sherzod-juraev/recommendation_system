@@ -35,7 +35,8 @@ async def create_author(
         /
 ) -> Author:
     author_db = Author(
-        full_name=author_scheme.full_name
+        full_name=author_scheme.full_name,
+        bio=author_scheme.bio
     )
     db.add(author_db)
     author_db = await save_to_db(db, author_db)

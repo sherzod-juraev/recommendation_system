@@ -11,6 +11,7 @@ class AuthorOut(BaseModel):
     }
 
     id: UUID
+    bio: str | None = None
     full_name: str
     books: list[BookOut] = []
 
@@ -21,11 +22,12 @@ class AuthorIn(BaseModel):
     }
 
     full_name: str = Field(max_length=100)
+    bio: str | None = None
 
 
     @field_validator('full_name')
     def  verify_full_name(cls, value):
-        pattern = r'^[A-Za-z ]{1,100}$'
+        pattern = r'^[A-Za-z .]{1,100}$'
         if not match(pattern, value):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,

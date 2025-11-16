@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from sqlalchemy import Text, DateTime, ForeignKey
+from sqlalchemy import Text, DateTime, ForeignKey, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID as db_uuid
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from uuid import uuid4, UUID
@@ -36,4 +36,8 @@ class Book(Base):
         back_populates='book',
         lazy='noload',
         passive_deletes=True
+    )
+
+    __table_args__ = (
+        UniqueConstraint('title', 'author_id'),
     )
