@@ -12,16 +12,16 @@ async def conclusion(
         user_id: UUID,
         /
 ) -> list[Book]:
-    genres_id_list = await get_interest(db, user_id)
+    result = await get_interest(db, user_id)
+    genres_id_list, books_id_list = result[0], result[1]
     query = select(distinct(UserInterest.book_id)).join(
         UserInterest.book
     ).join(
         Book.book_genres
     ).where(
-        UserInterest.user_id != user_id,
-        UserInterest.degree >= 3,
+        UserInterest.book_id.notin_(books_id_list),
         BookGenre.genre_id.in_(genres_id_list)
-    ).limit(10)
+    )
     result = await db.execute(query)
     books_id_list = result.scalars().all()
     query = select(Book).where(Book.id.in_(books_id_list)).order_by(Book.title.asc())

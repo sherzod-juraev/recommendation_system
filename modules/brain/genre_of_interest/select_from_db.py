@@ -14,8 +14,11 @@ async def get_interest(
     user_interests = result.scalars().all()
     length = len(user_interests)
     genres_id_set = set({})
+    books_id_set = set({})
     for i in range(length):
         genre_length = len(user_interests[i].book.book_genres)
         for j in range(genre_length):
             genres_id_set.add(user_interests[i].book.book_genres[j].genre.id)
-    return list(genres_id_set)
+            books_id_set.add(user_interests[i].book_id)
+    array = [list(genres_id_set), list(books_id_set)]
+    return array
