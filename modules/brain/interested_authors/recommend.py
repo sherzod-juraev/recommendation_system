@@ -26,7 +26,5 @@ async def conclusion(
     result = await db.execute(query)
     books_read = set(result.scalars().all())
     # tavsiya etiladigan kitoblar
-    print(books_id_set)
     books_id_set -= books_read
-    print(books_read)
     return books_id_set

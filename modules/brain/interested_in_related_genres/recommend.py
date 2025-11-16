@@ -20,7 +20,7 @@ async def conclusion(
     result = await db.execute(query)
     books_id_set = set(result.scalars().all())
     # user o'qiganlari
-    query = select(distinct(UserInterest)).where(
+    query = select(distinct(UserInterest.book_id)).where(
         UserInterest.book_id.in_(books_id_set)
     )
     result = await db.execute(query)
