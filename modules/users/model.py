@@ -16,14 +16,6 @@ class User(Base):
     full_name: Mapped[str | None] = mapped_column(String(100))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.now(timezone.utc))
 
-    chats: Mapped['Chat'] = relationship(
-        'Chat',
-        foreign_keys='Chat.user_id',
-        back_populates='user',
-        passive_deletes=True,
-        lazy='noload'
-    )
-
     user_interest: Mapped['UserInterest'] = relationship(
         'UserInterest',
         foreign_keys='UserInterest.user_id',
