@@ -6,6 +6,7 @@ from .chats.router import chat_router
 from .contents.router import content_router
 from .recommendation import recommendation_router
 from .learn import learn_router
+from .brain import brain_router
 
 # import models
 from .users import User
@@ -48,4 +49,8 @@ api_router.include_router(
 
 api_router.include_router(
     learn_router
+)
+
+api_router.include_router(
+    brain_router
 )

@@ -1,1 +1,1 @@
-from recommend import conclusion
+from .recommend import conclusion

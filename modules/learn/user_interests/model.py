@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
-from enum import Enum as py_enum
-from sqlalchemy import Integer, ForeignKey, Enum, DateTime
+from enum import IntEnum as py_enum
+from sqlalchemy import Integer, ForeignKey, DateTime
 from sqlalchemy.dialects.postgresql import UUID as db_uuid
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from uuid import uuid4, UUID
@@ -20,7 +20,7 @@ class UserInterest(Base):
     __tablename__ = 'user_interests'
 
     id: Mapped[UUID] = mapped_column(db_uuid(as_uuid=True), primary_key=True, default=uuid4)
-    degree: Mapped[InterestDegree] = mapped_column(Enum(InterestDegree), nullable=False)
+    degree: Mapped[InterestDegree] = mapped_column(Integer, nullable=False)
     book_id: Mapped[UUID] = mapped_column(db_uuid(as_uuid=True), ForeignKey('books.id', ondelete='CASCADE'), nullable=False)
     user_id: Mapped[UUID] = mapped_column(db_uuid(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.now(timezone.utc))
